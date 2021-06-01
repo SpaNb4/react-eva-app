@@ -1,0 +1,16 @@
+.Corporation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.Link {
+    &:hover {
+        cursor: pointer;
+        color: rgb(62, 80, 243);
+        border-bottom: 1px solid #000;
+    }
+}

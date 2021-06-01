@@ -3,12 +3,18 @@ import { createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ExternalUrls } from '../../common/constants';
 import { AppDispatch } from '../store';
-import { IFaction, ISolarSystem } from './reducer';
+import { IFaction, ISolarSystem, ICorporation, ICeo, IRace } from './reducer';
 
 export const fetchFactionsSuccess = createAction<IFaction[]>(types.FETCH_FACTIONS_SUCCESS);
 export const fetchFactionsFailure = createAction<string>(types.FETCH_FACTIONS_FAILURE);
 export const fetchSolarSystemSuccess = createAction<ISolarSystem>(types.FETCH_SOLAR_SYSTEM_SUCCESS);
 export const fetchSolarSystemFailure = createAction<string>(types.FETCH_SOLAR_SYSTEM_FAILURE);
+export const fetchCorporationSuccess = createAction<ICorporation>(types.FETCH_CORPORATION_SUCCESS);
+export const fetchCorporationFailure = createAction<string>(types.FETCH_CORPORATION_FAILURE);
+export const fetchCeoSuccess = createAction<ICeo>(types.FETCH_CEO_SUCCESS);
+export const fetchCeoFailure = createAction<string>(types.FETCH_CEO_FAILURE);
+export const fetchRacesSuccess = createAction<IRace[]>(types.FETCH_RACES_SUCCESS);
+export const fetchRacesFailure = createAction<string>(types.FETCH_RACES_FAILURE);
 export const showLoader = createAction(types.SHOW_LOADER);
 export const hideLoader = createAction(types.HIDE_LOADER);
 
@@ -33,5 +39,41 @@ export const fetchSolarSystem = (solarSystemId: number) => async (dispatch: AppD
         dispatch(hideLoader());
     } catch (error) {
         dispatch(fetchSolarSystemFailure(error));
+    }
+};
+
+export const fetchCorporation = (corporationId: number) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(showLoader());
+        const response = await axios(`${ExternalUrls.Corporation}/${corporationId}`);
+        const corporation = response.data;
+        dispatch(fetchCorporationSuccess({ ...corporation, corporationId }));
+        dispatch(hideLoader());
+    } catch (error) {
+        dispatch(fetchCorporationFailure(error));
+    }
+};
+
+export const fetchCeo = (ceoId: number) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(showLoader());
+        const response = await axios(`${ExternalUrls.Ceo}/${ceoId}`);
+        const ceo = response.data;
+        dispatch(fetchCeoSuccess({ ...ceo, ceoId }));
+        dispatch(hideLoader());
+    } catch (error) {
+        dispatch(fetchCorporationFailure(error));
+    }
+};
+
+export const fetchRaces = () => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(showLoader());
+        const response = await axios(ExternalUrls.Races);
+        const races = response.data;
+        dispatch(fetchRacesSuccess(races));
+        dispatch(hideLoader());
+    } catch (error) {
+        dispatch(fetchRacesFailure(error));
     }
 };

@@ -36,9 +36,43 @@ export interface ISolarSystem {
     system_id: number;
 }
 
+export interface ICorporation {
+    corporationId: number;
+    ceo_id: number;
+    creator_id: number;
+    description: string;
+    home_station_id: number;
+    member_count: number;
+    name: string;
+    shares: number;
+    tax_rate: number;
+    ticker: string;
+}
+
+export interface ICeo {
+    ceoId: number;
+    birthday: string;
+    bloodline_id: number;
+    corporation_id: number;
+    description: string;
+    gender: string;
+    name: string;
+    race_id: number;
+    security_status: number;
+}
+
+export interface IRace {
+    alliance_id: number;
+    description: string;
+    name: string;
+    race_id: number;
+}
 interface IInitialState {
     factions: IFaction[] | undefined;
     solarSystems: ISolarSystem[];
+    corporations: ICorporation[];
+    ceo: ICeo[];
+    races: IRace[];
     errorMessage: string | undefined;
     loading: boolean;
 }
@@ -46,6 +80,9 @@ interface IInitialState {
 const initialState: IInitialState = {
     factions: [],
     solarSystems: [],
+    corporations: [],
+    ceo: [],
+    races: [],
     errorMessage: '',
     loading: false,
 };
@@ -64,6 +101,26 @@ const reducer = createReducer(initialState, (builder) => {
             state.solarSystems = [...state.solarSystems, action.payload];
         })
         .addCase(actions.fetchSolarSystemFailure, (state, action) => {
+            state.errorMessage = action.payload;
+        })
+        .addCase(actions.fetchCorporationSuccess, (state, action) => {
+            // TODO: same as above
+            state.corporations = [...state.corporations, action.payload];
+        })
+        .addCase(actions.fetchCorporationFailure, (state, action) => {
+            state.errorMessage = action.payload;
+        })
+        .addCase(actions.fetchCeoSuccess, (state, action) => {
+            // TODO: same as above
+            state.ceo = [...state.ceo, action.payload];
+        })
+        .addCase(actions.fetchCeoFailure, (state, action) => {
+            state.errorMessage = action.payload;
+        })
+        .addCase(actions.fetchRacesSuccess, (state, action) => {
+            state.races = action.payload;
+        })
+        .addCase(actions.fetchRacesFailure, (state, action) => {
             state.errorMessage = action.payload;
         })
         .addCase(actions.showLoader, (state) => {
