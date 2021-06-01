@@ -3,10 +3,12 @@ import { createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ExternalUrls } from '../../common/constants';
 import { AppDispatch } from '../store';
-import { IFaction } from './reducer';
+import { IFaction, ISolarSystem } from './reducer';
 
 export const fetchFactionsSuccess = createAction<IFaction[]>(types.FETCH_FACTIONS_SUCCESS);
 export const fetchFactionsFailure = createAction<string>(types.FETCH_FACTIONS_FAILURE);
+export const fetchSolarSystemSuccess = createAction<ISolarSystem>(types.FETCH_SOLAR_SYSTEM_SUCCESS);
+export const fetchSolarSystemFailure = createAction<string>(types.FETCH_SOLAR_SYSTEM_FAILURE);
 export const showLoader = createAction(types.SHOW_LOADER);
 export const hideLoader = createAction(types.HIDE_LOADER);
 
@@ -19,5 +21,17 @@ export const fetchFactions = () => async (dispatch: AppDispatch) => {
         dispatch(hideLoader());
     } catch (error) {
         dispatch(fetchFactionsFailure(error));
+    }
+};
+
+export const fetchSolarSystem = (solarSystemId: number) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(showLoader());
+        const response = await axios(`${ExternalUrls.SolarSystem}/${solarSystemId}`);
+        const solarSystem = response.data;
+        dispatch(fetchSolarSystemSuccess(solarSystem));
+        dispatch(hideLoader());
+    } catch (error) {
+        dispatch(fetchSolarSystemFailure(error));
     }
 };
