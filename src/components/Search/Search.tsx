@@ -4,21 +4,37 @@ import classes from './Search.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearch } from '../../store/app/slices';
 import { fetchSearch } from '../../store/app/actions';
+import Pagination from '../Pagination/Pagination';
+import { ISearch } from '../../store/app/reducer';
 
 export default function Search() {
     const dispatch = useDispatch();
     const search = useSelector(getSearch);
+    const sortedSearch = sortByName(search);
+
     const [inputValue, setinputValue] = useState('');
     const [dropdownValue, setdropdownValue] = useState('');
     const [message, setMessage] = useState('');
     const [isInputOk, setIsInputOk] = useState(true);
     const [isDropdownOk, setIsDropdownOk] = useState(true);
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const elementsPerPage = 25;
+    const offset = currentPage * elementsPerPage;
+    const [pageCount, setPageCount] = useState(0);
+
     const INPUT_MIN_CHARS = 3;
 
+    const currentPageData = sortedSearch && sortedSearch.slice(offset, offset + elementsPerPage);
+
     useEffect(() => {
-        if (Object.keys(search).length === 0 && inputValue && dropdownValue) {
+        setPageCount(Math.ceil(search.length / elementsPerPage));
+    }, [search]);
+
+    useEffect(() => {
+        if (search.length === 0 && inputValue && dropdownValue) {
             setMessage('No results were found for your search.');
-        } else if (Object.keys(search).length !== 0) {
+        } else if (search.length !== 0) {
             setMessage(`Found: ${search.length}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,6 +74,26 @@ export default function Search() {
         setIsDropdownOk(true);
     }
 
+    function sortByName(arr: ISearch[]) {
+        let sortedArr = [...arr];
+
+        sortedArr.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            }
+            if (a.name > b.name) {
+                return 1;
+            }
+            return 0;
+        });
+
+        return sortedArr;
+    }
+
+    function pageClickHandler(data: { selected: React.SetStateAction<number> }) {
+        setCurrentPage(data.selected);
+    }
+
     return (
         <div className={classes.Search}>
             <form onSubmit={submitFormHandler}>
@@ -93,8 +129,8 @@ export default function Search() {
                 Search result:
                 <table>
                     <tbody>
-                        {search &&
-                            search.map((el) => {
+                        {currentPageData &&
+                            currentPageData.map((el) => {
                                 return (
                                     <tr key={el.id} className={classes.Table}>
                                         <td>{el.name}</td>
@@ -104,6 +140,12 @@ export default function Search() {
                             })}
                     </tbody>
                 </table>
+                <Pagination
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    onPageChange={pageClickHandler}
+                    pageCount={pageCount}
+                />
             </div>
         </div>
     );
