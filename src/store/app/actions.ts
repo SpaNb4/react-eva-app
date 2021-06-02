@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ExternalUrls } from '../../common/constants';
 import { AppDispatch } from '../store';
-import { IFaction, ISolarSystem, ICorporation, ICeo, IRace } from './reducer';
+import { IFaction, ISolarSystem, ICorporation, ICeo, IRace, ISearch } from './reducer';
 
 export const fetchFactionsSuccess = createAction<IFaction[]>(types.FETCH_FACTIONS_SUCCESS);
 export const fetchFactionsFailure = createAction<string>(types.FETCH_FACTIONS_FAILURE);
@@ -15,6 +15,8 @@ export const fetchCeoSuccess = createAction<ICeo>(types.FETCH_CEO_SUCCESS);
 export const fetchCeoFailure = createAction<string>(types.FETCH_CEO_FAILURE);
 export const fetchRacesSuccess = createAction<IRace[]>(types.FETCH_RACES_SUCCESS);
 export const fetchRacesFailure = createAction<string>(types.FETCH_RACES_FAILURE);
+export const fetchSearchSuccess = createAction<ISearch>(types.FETCH_SEARCH_SUCCESS);
+export const fetchSearchFailure = createAction<string>(types.FETCH_SEARCH_FAILURE);
 export const showLoader = createAction(types.SHOW_LOADER);
 export const hideLoader = createAction(types.HIDE_LOADER);
 
@@ -75,5 +77,17 @@ export const fetchRaces = () => async (dispatch: AppDispatch) => {
         dispatch(hideLoader());
     } catch (error) {
         dispatch(fetchRacesFailure(error));
+    }
+};
+
+export const fetchSearch = (searchType: string, searchInput: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(showLoader());
+        const response = await axios(ExternalUrls.Search, { params: { categories: searchType, search: searchInput } });
+        const searchResult = response.data;
+        dispatch(fetchSearchSuccess(searchResult));
+        dispatch(hideLoader());
+    } catch (error) {
+        dispatch(fetchSearchFailure(error));
     }
 };

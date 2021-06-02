@@ -67,12 +67,17 @@ export interface IRace {
     name: string;
     race_id: number;
 }
+
+export interface ISearch {
+    [key: string]: number[];
+}
 interface IInitialState {
     factions: IFaction[] | undefined;
     solarSystems: ISolarSystem[];
     corporations: ICorporation[];
     ceo: ICeo[];
     races: IRace[];
+    search: ISearch;
     errorMessage: string | undefined;
     loading: boolean;
 }
@@ -83,6 +88,7 @@ const initialState: IInitialState = {
     corporations: [],
     ceo: [],
     races: [],
+    search: {},
     errorMessage: '',
     loading: false,
 };
@@ -121,6 +127,12 @@ const reducer = createReducer(initialState, (builder) => {
             state.races = action.payload;
         })
         .addCase(actions.fetchRacesFailure, (state, action) => {
+            state.errorMessage = action.payload;
+        })
+        .addCase(actions.fetchSearchSuccess, (state, action) => {
+            state.search = action.payload;
+        })
+        .addCase(actions.fetchSearchFailure, (state, action) => {
             state.errorMessage = action.payload;
         })
         .addCase(actions.showLoader, (state) => {

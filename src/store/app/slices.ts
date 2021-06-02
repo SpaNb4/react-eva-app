@@ -7,4 +7,5 @@ export const getSolarSystems = (store: RootState) => getSlice(store).solarSystem
 export const getCorporations = (store: RootState) => getSlice(store).corporations;
 export const getCeo = (store: RootState) => getSlice(store).ceo;
 export const getRaces = (store: RootState) => getSlice(store).races;
+export const getSearch = (store: RootState) => getSlice(store).search;
 export const getLoading = (store: RootState) => getSlice(store).loading;
