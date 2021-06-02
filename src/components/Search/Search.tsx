@@ -19,7 +19,7 @@ export default function Search() {
         if (Object.keys(search).length === 0 && inputValue && dropdownValue) {
             setMessage('No results were found for your search.');
         } else if (Object.keys(search).length !== 0) {
-            setMessage(`Found: ${search[`${dropdownValue}`].length}`);
+            setMessage(`Found: ${search.length}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
@@ -91,12 +91,19 @@ export default function Search() {
             {message && <div className={classes.SearchMessage}>{message}</div>}
             <div className={classes.SearchResult}>
                 Search result:
-                <ul>
-                    {search[`${dropdownValue}`] &&
-                        search[`${dropdownValue}`].map((el) => {
-                            return <li key={el}>{el}</li>;
-                        })}
-                </ul>
+                <table>
+                    <tbody>
+                        {search &&
+                            search.map((el) => {
+                                return (
+                                    <tr key={el.id} className={classes.Table}>
+                                        <td>{el.name}</td>
+                                        <td>{el.id}</td>
+                                    </tr>
+                                );
+                            })}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

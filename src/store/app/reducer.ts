@@ -69,15 +69,18 @@ export interface IRace {
 }
 
 export interface ISearch {
-    [key: string]: number[];
+    category: string;
+    id: number;
+    name: string;
 }
+
 interface IInitialState {
     factions: IFaction[] | undefined;
     solarSystems: ISolarSystem[];
     corporations: ICorporation[];
     ceo: ICeo[];
     races: IRace[];
-    search: ISearch;
+    search: ISearch[];
     errorMessage: string | undefined;
     loading: boolean;
 }
@@ -88,7 +91,7 @@ const initialState: IInitialState = {
     corporations: [],
     ceo: [],
     races: [],
-    search: {},
+    search: [],
     errorMessage: '',
     loading: false,
 };

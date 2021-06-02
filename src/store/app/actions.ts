@@ -15,7 +15,7 @@ export const fetchCeoSuccess = createAction<ICeo>(types.FETCH_CEO_SUCCESS);
 export const fetchCeoFailure = createAction<string>(types.FETCH_CEO_FAILURE);
 export const fetchRacesSuccess = createAction<IRace[]>(types.FETCH_RACES_SUCCESS);
 export const fetchRacesFailure = createAction<string>(types.FETCH_RACES_FAILURE);
-export const fetchSearchSuccess = createAction<ISearch>(types.FETCH_SEARCH_SUCCESS);
+export const fetchSearchSuccess = createAction<ISearch[]>(types.FETCH_SEARCH_SUCCESS);
 export const fetchSearchFailure = createAction<string>(types.FETCH_SEARCH_FAILURE);
 export const showLoader = createAction(types.SHOW_LOADER);
 export const hideLoader = createAction(types.HIDE_LOADER);
@@ -85,8 +85,19 @@ export const fetchSearch = (searchType: string, searchInput: string) => async (d
         dispatch(showLoader());
         const response = await axios(ExternalUrls.Search, { params: { categories: searchType, search: searchInput } });
         const searchResult = response.data;
-        dispatch(fetchSearchSuccess(searchResult));
-        dispatch(hideLoader());
+
+        if (Object.keys(searchResult).length === 0) {
+            dispatch(fetchSearchSuccess([]));
+            dispatch(hideLoader());
+        } else {
+            const namesWithId = await axios({
+                method: 'post',
+                url: ExternalUrls.Names,
+                data: searchResult[`${searchType}`],
+            });
+            dispatch(fetchSearchSuccess(namesWithId.data));
+            dispatch(hideLoader());
+        }
     } catch (error) {
         dispatch(fetchSearchFailure(error));
     }
