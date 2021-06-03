@@ -43,15 +43,10 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isExtend]);
 
-    useEffect(() => {
-        if (ceoArr.length) {
-            setIsModalActive(true);
-        }
-    }, [ceoArr]);
-
     function corporationClickHandler(event: MouseEvent<HTMLSpanElement>) {
         event.stopPropagation();
         dispatch(fetchCeo(corporation?.ceo_id!));
+		setIsModalActive(true);
     }
 
     function factionClickHandler() {
