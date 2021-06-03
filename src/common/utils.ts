@@ -1,4 +1,8 @@
-export function isEqualObjectInArr(arr: any, object: any, id: any) {
+export function isEqualObjectInArr(
+    arr: ISolarSystem[] | ICorporation[] | ICeo[],
+    object: ISolarSystem | ICorporation | ICeo,
+    id: string
+) {
     return arr.some((el: any) => el[id] === object[id]);
 }
 

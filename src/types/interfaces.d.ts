@@ -18,6 +18,7 @@ interface IPlanet {
 }
 
 interface ISolarSystem {
+    [key: string]: string;
     constellation_id: number;
     name: string;
     planets: IPlanet[];
@@ -35,6 +36,7 @@ interface ISolarSystem {
 }
 
 interface ICorporation {
+    [key: string]: string;
     corporationId: number;
     ceo_id: number;
     creator_id: number;
@@ -48,6 +50,7 @@ interface ICorporation {
 }
 
 interface ICeo {
+    [key: string]: string;
     ceoId: number;
     birthday: string;
     bloodline_id: number;
