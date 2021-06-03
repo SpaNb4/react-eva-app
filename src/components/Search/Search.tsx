@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSearch } from '../../store/app/slices';
 import { fetchSearch } from '../../store/app/actions';
 import Pagination from '../Pagination/Pagination';
-import { ISearch } from '../../store/app/reducer';
+import { sortByName } from '../../common/utils';
 
 export default function Search() {
     const dispatch = useDispatch();
@@ -72,22 +72,6 @@ export default function Search() {
     function dropdownChangeHandler(event: FormEvent<HTMLSelectElement>) {
         setdropdownValue(event.currentTarget.value);
         setIsDropdownOk(true);
-    }
-
-    function sortByName(arr: ISearch[]) {
-        let sortedArr = [...arr];
-
-        sortedArr.sort((a, b) => {
-            if (a.name < b.name) {
-                return -1;
-            }
-            if (a.name > b.name) {
-                return 1;
-            }
-            return 0;
-        });
-
-        return sortedArr;
     }
 
     function pageClickHandler(data: { selected: React.SetStateAction<number> }) {

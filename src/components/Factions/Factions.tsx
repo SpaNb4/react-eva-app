@@ -21,6 +21,7 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
     const corporations = useSelector(getCorporations);
     const ceoArr = useSelector(getCeo);
     const races = useSelector(getRaces);
+	
     const [isExtend, setIsExtend] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
     const [isCeoNameClicked, setIsCeoNameClicked] = useState(false);
@@ -30,7 +31,7 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
     const corporation = corporations?.find((corporation) => corporation.corporationId === corporationId);
     const ceo = ceoArr?.find((ceoEl) => ceoEl.ceoId === corporation?.ceo_id);
     const race = races?.find((race) => race.race_id === ceo?.race_id);
-    console.log(solarSystem);
+
     if (isExtend) {
         clsFaction.push(classes.FactionActive);
     }

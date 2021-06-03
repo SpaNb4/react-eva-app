@@ -3,7 +3,6 @@ import { createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ExternalUrls } from '../../common/constants';
 import { AppDispatch } from '../store';
-import { IFaction, ISolarSystem, ICorporation, ICeo, IRace, ISearch } from './reducer';
 
 export const fetchFactionsSuccess = createAction<IFaction[]>(types.FETCH_FACTIONS_SUCCESS);
 export const fetchFactionsFailure = createAction<string>(types.FETCH_FACTIONS_FAILURE);
