@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
+import { isEqualObjectInArr } from './../../common/utils';
 
 export interface IFaction {
     corporation_id: number;
@@ -105,23 +106,25 @@ const reducer = createReducer(initialState, (builder) => {
             state.errorMessage = action.payload;
         })
         .addCase(actions.fetchSolarSystemSuccess, (state, action) => {
-            /* TODO: fix if you click on one fraction several times, 
-			then the same elements with solar system will be added to the array*/
-            state.solarSystems = [...state.solarSystems, action.payload];
+            if (!isEqualObjectInArr(state.solarSystems, action.payload, 'system_id')) {
+                state.solarSystems = [...state.solarSystems, action.payload];
+            }
         })
         .addCase(actions.fetchSolarSystemFailure, (state, action) => {
             state.errorMessage = action.payload;
         })
         .addCase(actions.fetchCorporationSuccess, (state, action) => {
-            // TODO: same as above
-            state.corporations = [...state.corporations, action.payload];
+            if (!isEqualObjectInArr(state.corporations, action.payload, 'corporationId')) {
+                state.corporations = [...state.corporations, action.payload];
+            }
         })
         .addCase(actions.fetchCorporationFailure, (state, action) => {
             state.errorMessage = action.payload;
         })
         .addCase(actions.fetchCeoSuccess, (state, action) => {
-            // TODO: same as above
-            state.ceo = [...state.ceo, action.payload];
+            if (!isEqualObjectInArr(state.ceo, action.payload, 'ceoId')) {
+                state.ceo = [...state.ceo, action.payload];
+            }
         })
         .addCase(actions.fetchCeoFailure, (state, action) => {
             state.errorMessage = action.payload;

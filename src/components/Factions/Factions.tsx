@@ -30,7 +30,7 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
     const corporation = corporations?.find((corporation) => corporation.corporationId === corporationId);
     const ceo = ceoArr?.find((ceoEl) => ceoEl.ceoId === corporation?.ceo_id);
     const race = races?.find((race) => race.race_id === ceo?.race_id);
-
+    console.log(solarSystem);
     if (isExtend) {
         clsFaction.push(classes.FactionActive);
     }
@@ -46,7 +46,7 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
     function corporationClickHandler(event: MouseEvent<HTMLSpanElement>) {
         event.stopPropagation();
         dispatch(fetchCeo(corporation?.ceo_id!));
-		setIsModalActive(true);
+        setIsModalActive(true);
     }
 
     function factionClickHandler() {
