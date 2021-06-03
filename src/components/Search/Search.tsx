@@ -61,6 +61,7 @@ export default function Search() {
 
         setMessage('');
         setIsInputOk(true);
+        setCurrentPage(0);
 
         dispatch(fetchSearch(dropdownValue, inputValue));
     }
@@ -112,6 +113,10 @@ export default function Search() {
             <div className={classes.SearchResult}>
                 Search result:
                 <table>
+                    <thead>
+                        <th>Name</th>
+                        <th>ID</th>
+                    </thead>
                     <tbody>
                         {currentPageData &&
                             currentPageData.map((el) => {
@@ -124,12 +129,14 @@ export default function Search() {
                             })}
                     </tbody>
                 </table>
-                <Pagination
-                    pageRangeDisplayed={3}
-                    marginPagesDisplayed={2}
-                    onPageChange={pageClickHandler}
-                    pageCount={pageCount}
-                />
+                {search.length >= elementsPerPage ? (
+                    <Pagination
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={2}
+                        onPageChange={pageClickHandler}
+                        pageCount={pageCount}
+                    />
+                ) : null}
             </div>
         </div>
     );

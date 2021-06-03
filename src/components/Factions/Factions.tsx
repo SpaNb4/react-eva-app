@@ -21,7 +21,7 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
     const corporations = useSelector(getCorporations);
     const ceoArr = useSelector(getCeo);
     const races = useSelector(getRaces);
-	
+
     const [isExtend, setIsExtend] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
     const [isCeoNameClicked, setIsCeoNameClicked] = useState(false);
@@ -67,24 +67,22 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
         <>
             <div onClick={factionClickHandler} className={clsFaction.join(' ')}>
                 <h3>{name}</h3>
-                <p>{description}</p>
-                <h3>{solarSystem && solarSystem.name}</h3>
+                <p className={classes.Description}>{description}</p>
+                <h3>Solar system - {solarSystem && solarSystem.name}</h3>
                 <span className={classes.Link} onClick={corporationClickHandler}>
-                    {corporation && corporation.name}
+                    Corporation - {corporation && corporation.name}
                 </span>
             </div>
 
-            {isCeoNameClicked ? (
-                <Modal isActive={isModalActive} setIsModalActive={setIsModalActive}>
+            <Modal isActive={isModalActive} setIsModalActive={setIsModalActive}>
+                {isCeoNameClicked ? (
                     <Ceo
                         name={ceo?.name}
                         birthday={ceo?.birthday}
                         race={race?.name}
                         leftArrowClickHandler={leftArrowClickHandler}
                     />
-                </Modal>
-            ) : (
-                <Modal isActive={isModalActive} setIsModalActive={setIsModalActive}>
+                ) : (
                     <Corporation
                         name={corporation?.name}
                         member_count={corporation?.member_count}
@@ -92,8 +90,8 @@ function Faction({ name, description, solarSystemId, corporationId }: IFactionPr
                         ceoName={ceo && ceo?.name}
                         ceoNameClickHandler={ceoNameClickHandler}
                     />
-                </Modal>
-            )}
+                )}
+            </Modal>
         </>
     ) : (
         <div onClick={factionClickHandler} className={clsFaction.join(' ')}>

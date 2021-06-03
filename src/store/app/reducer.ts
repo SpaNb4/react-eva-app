@@ -23,7 +23,7 @@ const reducer = createReducer(initialState, (builder) => {
         })
         .addCase(actions.fetchSolarSystemSuccess, (state, action) => {
             if (!isEqualObjectInArr(state.solarSystems, action.payload, 'system_id')) {
-                state.solarSystems = [...state.solarSystems, action.payload];
+                state.solarSystems.push(action.payload);
             }
         })
         .addCase(actions.fetchSolarSystemFailure, (state, action) => {
@@ -31,7 +31,7 @@ const reducer = createReducer(initialState, (builder) => {
         })
         .addCase(actions.fetchCorporationSuccess, (state, action) => {
             if (!isEqualObjectInArr(state.corporations, action.payload, 'corporationId')) {
-                state.corporations = [...state.corporations, action.payload];
+                state.corporations.push(action.payload);
             }
         })
         .addCase(actions.fetchCorporationFailure, (state, action) => {
@@ -39,7 +39,7 @@ const reducer = createReducer(initialState, (builder) => {
         })
         .addCase(actions.fetchCeoSuccess, (state, action) => {
             if (!isEqualObjectInArr(state.ceo, action.payload, 'ceoId')) {
-                state.ceo = [...state.ceo, action.payload];
+                state.ceo.push(action.payload);
             }
         })
         .addCase(actions.fetchCeoFailure, (state, action) => {

@@ -20,9 +20,9 @@ export default function Corporation({
         <div className={classes.Corporation}>
             <h3>Corporation name - {name}</h3>
             <div>Member count - {member_count}</div>
-            <p>{description}</p>
+            <p className={classes.Description}>{description}</p>
             <div>
-                Ceo name -{' '}
+                <span>Ceo name - </span>
                 <span onClick={ceoNameClickHandler} className={classes.Link}>
                     {ceoName}
                 </span>
